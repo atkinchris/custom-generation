@@ -4,7 +4,7 @@ const buildText = require('./buildText')
 
 const width = 512
 const height = 512
-const gridSize = 6
+const gridSize = 10
 const maxAttempts = 1000
 const maxAdjacents = 2
 const passes = 3
@@ -30,22 +30,25 @@ const buildLine = (list, discard) => {
   discard.push(a)
   discard.push(b)
 
-  const colour = ((a.y / height) * 96) + 180
-
   return {
     x1: a.x,
     x2: b.x,
     y1: a.y,
     y2: b.y,
-    colour,
   }
 }
 
 const gridWalk = (name) => {
   const points = []
   const lines = []
+  const center = {
+    x: width / 2,
+    y: height / 2,
+  }
+  const radiusSq = (Math.min(width, height) / 2) ** 2
 
   const { inText } = buildText(width, height, 0.85, name)
+  const inCircle = point => distanceSqFrom(point, center) <= radiusSq
 
   const rowHeight = gridSize
   const columnWidth = Math.sqrt((gridSize ** 2) - ((gridSize / 2) ** 2))
@@ -58,7 +61,7 @@ const gridWalk = (name) => {
     for (let y = yOffset; y < height; y += rowHeight) {
       const point = { x, y, adjacents: 0 }
 
-      if (!inText(point)) {
+      if (!inText(point) && inCircle(point)) {
         points.push(point)
       }
     }
@@ -85,11 +88,7 @@ const gridWalk = (name) => {
     })
   }
 
-  const path = []
-
-  lines.forEach(({ x1, x2, y1, y2 }) => {
-    path.push(`M${x1} ${y1} L ${x2} ${y2}`)
-  })
+  const path = lines.map(({ x1, x2, y1, y2 }) => `M${x1} ${y1} L ${x2} ${y2}`)
 
   const output = `
     <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +98,7 @@ const gridWalk = (name) => {
           <stop offset="100%" stop-color="#211572" />
         </linearGradient>
         <mask id="lines">
-          <path d="${path.join(' ')}" fill="transparent" stroke="white"/>
+          <path d="${path.join(' ')}" fill="transparent" stroke="white" stroke-width="2" />
         </mask>
       </defs>
       <rect x="0" y="0" width="${width}" height="${height}" mask="url(#lines)" fill="url(#grad)" />
