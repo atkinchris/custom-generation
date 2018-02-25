@@ -1,10 +1,9 @@
-const { createCanvas } = require('canvas')
 const { knuthShuffle } = require('knuth-shuffle')
 
 const buildText = require('./buildText')
 
-const width = 400
-const height = 400
+const width = 512
+const height = 512
 const gridSize = 6
 const maxAttempts = 1000
 const maxAdjacents = 2
@@ -43,12 +42,10 @@ const buildLine = (list, discard) => {
 }
 
 const gridWalk = (name) => {
-  const canvas = createCanvas(width, height)
-  const ctx = canvas.getContext('2d')
   const points = []
   const lines = []
 
-  const { inText } = buildText(canvas, name)
+  const { inText } = buildText(width, height, name)
 
   const rowHeight = gridSize
   const columnWidth = Math.sqrt((gridSize ** 2) - ((gridSize / 2) ** 2))

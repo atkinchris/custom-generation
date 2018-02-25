@@ -1,18 +1,26 @@
 const vectorizeText = require('vectorize-text')
+const { createCanvas } = require('canvas')
 
 const Triangle = require('./triangle')
 
-const buildText = (canvas, text) => {
-  const { width, height } = canvas
+const buildText = (width, height, text) => {
+  const canvas = createCanvas(width, height)
   const context = canvas.getContext('2d')
-  const { positions, cells } = vectorizeText(text.toUpperCase(), {
+  const options = {
     font: 'Sans-serif',
     triangles: true,
-    width: width * 0.85,
     textBaseline: 'hanging',
     canvas,
     context,
-  })
+  }
+
+  if (text.length === 1) {
+    options.height = height * 0.85
+  } else {
+    options.width = width * 0.85
+  }
+
+  const { positions, cells } = vectorizeText(text.toUpperCase(), options)
 
   const bounds = positions.reduce((out, [x, y]) => ({
     top: y < out.top ? y : out.top,
