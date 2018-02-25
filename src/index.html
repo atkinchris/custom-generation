@@ -50,7 +50,7 @@
       background-color: lightsalmon;
       position: absolute;
       right: 0;
-      bottom: 0;
+      top: 0;
     }
 
     @media (max-width: 450px) {
@@ -61,7 +61,6 @@
 
     #controls {
       display: none;
-      margin-bottom: 1rem;
     }
 
     button {
@@ -74,7 +73,7 @@
     }
 
     input {
-      margin: 0.5rem 0;
+      margin-bottom: 0.5rem;
       padding: 0.25rem;
     }
   </style>
@@ -82,6 +81,7 @@
 <body>
   <div id="image"></div>
   <div class="controls column">
+    <button id="toggle">Toggle Controls</button>
     <form id="controls" class="column">
         <label for="text">Text</label>
         <input type="text" name="text" value="Chris" />
@@ -97,7 +97,6 @@
         <input type="number" name="gridSize" value="10" />
         <button type="submit">Generate</button>
       </form>
-      <button id="toggle">Toggle Controls</button>
   </div>
   <script>
     function toggleControls() {
