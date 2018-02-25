@@ -88,18 +88,28 @@ const gridWalk = (name) => {
     })
   }
 
-  const output = []
+  const path = []
 
-  output.push(`<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`)
-
-  lines.forEach(({ x1, x2, y1, y2, colour }) => {
-    const stroke = `hsl(${colour}, 100%, 50%)`
-    output.push(`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke-width="1" stroke="${stroke}"/>`)
+  lines.forEach(({ x1, x2, y1, y2 }) => {
+    path.push(`M${x1} ${y1} L ${x2} ${y2}`)
   })
 
-  output.push('</svg>')
+  const output = `
+    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#48C0D3" />
+          <stop offset="100%" stop-color="#211572" />
+        </linearGradient>
+        <mask id="lines">
+          <path d="${path.join(' ')}" fill="transparent" stroke="white"/>
+        </mask>
+      </defs>
+      <rect x="0" y="0" width="${width}" height="${height}" mask="url(#lines)" fill="url(#grad)" />
+    </svg>
+  `
 
-  return output.join('\n')
+  return output
 }
 
 module.exports = gridWalk
