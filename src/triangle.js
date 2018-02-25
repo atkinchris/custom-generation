@@ -32,4 +32,4 @@ class Triangle {
   }
 }
 
-export default Triangle
+module.exports = Triangle

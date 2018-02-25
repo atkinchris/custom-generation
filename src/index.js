@@ -3,6 +3,7 @@ const express = require('express')
 const gridWalk = require('./gridWalk')
 
 const app = express()
+const port = 8080
 
 app.get('/:rawName.png', (req, res) => {
   const { rawName } = req.params
@@ -14,4 +15,4 @@ app.get('/:rawName.png', (req, res) => {
   canvas.pngStream().pipe(res)
 })
 
-app.listen(8080, () => console.log('Example app listening on port 3000!'))
+app.listen(port, () => console.log('Server start'))

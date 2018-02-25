@@ -43,12 +43,12 @@ const buildLine = (list, discard) => {
 }
 
 const gridWalk = (name) => {
-  const canvas = createCanvas(200, 200)
+  const canvas = createCanvas(width, height)
   const ctx = canvas.getContext('2d')
   const points = []
   const lines = []
 
-  const { inText } = buildText(width, height, name)
+  const { inText } = buildText(canvas, name)
 
   const rowHeight = gridSize
   const columnWidth = Math.sqrt((gridSize ** 2) - ((gridSize / 2) ** 2))
@@ -88,6 +88,8 @@ const gridWalk = (name) => {
     })
   }
 
+  ctx.fillStyle = '#FFFFFF'
+  ctx.fillRect(0, 0, width, height)
   ctx.beginPath()
   lines.forEach((line) => {
     ctx.strokeStyle = `hsl(${line.colour}, 255, 255)`
@@ -99,4 +101,4 @@ const gridWalk = (name) => {
   return canvas
 }
 
-export default gridWalk
+module.exports = gridWalk

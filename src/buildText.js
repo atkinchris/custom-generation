@@ -2,12 +2,16 @@ const vectorizeText = require('vectorize-text')
 
 const Triangle = require('./triangle')
 
-const buildText = (width, height, text) => {
+const buildText = (canvas, text) => {
+  const { width, height } = canvas
+  const context = canvas.getContext('2d')
   const { positions, cells } = vectorizeText(text.toUpperCase(), {
     font: 'Sans-serif',
     triangles: true,
     width: width * 0.85,
     textBaseline: 'hanging',
+    canvas,
+    context,
   })
 
   const bounds = positions.reduce((out, [x, y]) => ({
@@ -40,4 +44,4 @@ const buildText = (width, height, text) => {
   }
 }
 
-export default buildText
+module.exports = buildText
