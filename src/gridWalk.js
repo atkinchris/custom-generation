@@ -45,7 +45,7 @@ const gridWalk = (name) => {
   const points = []
   const lines = []
 
-  const { inText } = buildText(width, height, name)
+  const { inText } = buildText(width, height, 0.85, name)
 
   const rowHeight = gridSize
   const columnWidth = Math.sqrt((gridSize ** 2) - ((gridSize / 2) ** 2))

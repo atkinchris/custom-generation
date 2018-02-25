@@ -3,24 +3,18 @@ const { createCanvas } = require('canvas')
 
 const Triangle = require('./triangle')
 
-const buildText = (width, height, text) => {
+const buildText = (width, height, scale, text) => {
   const canvas = createCanvas(width, height)
   const context = canvas.getContext('2d')
-  const options = {
+
+  const { positions, cells } = vectorizeText(text, {
     font: 'Sans-serif',
     triangles: true,
     textBaseline: 'hanging',
     canvas,
     context,
-  }
-
-  if (text.length === 1) {
-    options.height = height * 0.85
-  } else {
-    options.width = width * 0.85
-  }
-
-  const { positions, cells } = vectorizeText(text.toUpperCase(), options)
+    width: width * scale,
+  })
 
   const bounds = positions.reduce((out, [x, y]) => ({
     top: y < out.top ? y : out.top,
@@ -34,9 +28,23 @@ const buildText = (width, height, text) => {
     right: 0,
   })
 
+  bounds.height = bounds.bottom - bounds.top
+  bounds.width = bounds.right - bounds.left
+
+  let yScale = 1
+  let yMargin = 0
+
+  if (bounds.height > height) {
+    yScale = (height / bounds.height) * scale
+    yMargin = ((1 - yScale) * height) / 2
+  }
+
   const offsetPositions = positions.map(position => [
     position[0] + ((width / 2) - Math.round(bounds.right / 2)),
     position[1] + ((height / 2) - Math.round(bounds.bottom / 2)),
+  ]).map(position => [
+    (position[0] * yScale) + yMargin,
+    (position[1] * yScale) + yMargin,
   ])
 
   const triangles = cells.map(cell => new Triangle([
