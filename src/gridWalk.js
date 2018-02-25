@@ -98,7 +98,7 @@ const gridWalk = (name) => {
           <stop offset="100%" stop-color="#211572" />
         </linearGradient>
         <mask id="lines">
-          <path d="${path.join('')}" fill="transparent" stroke="white" stroke-width="2" />
+          <path d="${path.join('')}" fill="transparent" stroke="white" stroke-linecap="round" stroke-width="2" />
         </mask>
       </defs>
       <rect x="0" y="0" width="${width}" height="${height}" mask="url(#lines)" fill="url(#grad)" />
