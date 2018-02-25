@@ -2,9 +2,6 @@ const { knuthShuffle } = require('knuth-shuffle')
 
 const buildText = require('./buildText')
 
-const width = 512
-const height = 512
-const gridSize = 10
 const maxAttempts = 1000
 const maxAdjacents = 2
 const passes = 3
@@ -15,7 +12,7 @@ const distanceSqFrom = (a, b) => {
   return Math.round(dX + dY)
 }
 
-const buildLine = (list, discard) => {
+const buildLine = (list, discard, gridSize) => {
   knuthShuffle(list)
   const aIndex = 0
   const bIndex = list.findIndex(point => distanceSqFrom(list[0], point) === gridSize ** 2)
@@ -38,7 +35,8 @@ const buildLine = (list, discard) => {
   }
 }
 
-const gridWalk = (name) => {
+const gridWalk = (name, options) => {
+  const { height, width, gridSize } = options
   const points = []
   const lines = []
   const center = {
@@ -72,7 +70,7 @@ const gridWalk = (name) => {
     let attempts = 0
 
     while (attempts < maxAttempts) {
-      const line = buildLine(points, discard)
+      const line = buildLine(points, discard, gridSize)
 
       if (line) {
         lines.push(line)
@@ -88,24 +86,7 @@ const gridWalk = (name) => {
     })
   }
 
-  const path = lines.map(({ x1, x2, y1, y2 }) => `M${x1} ${y1}L${x2} ${y2}`)
-
-  const output = `
-    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#48C0D3" />
-          <stop offset="100%" stop-color="#211572" />
-        </linearGradient>
-        <mask id="lines">
-          <path d="${path.join('')}" fill="transparent" stroke="white" stroke-linecap="round" stroke-width="2" />
-        </mask>
-      </defs>
-      <rect x="0" y="0" width="${width}" height="${height}" mask="url(#lines)" fill="url(#grad)" />
-    </svg>
-  `
-
-  return output
+  return lines
 }
 
 module.exports = gridWalk
