@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "canvas": "^2.0.0-alpha.9",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "knuth-shuffle": "^1.0.8",
+    "vectorize-text": "^3.0.2"
   },
   "devDependencies": {
     "eslint": "^4.18.1",
