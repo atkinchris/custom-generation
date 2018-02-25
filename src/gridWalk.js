@@ -43,7 +43,7 @@ const gridWalk = (name, options) => {
     x: width / 2,
     y: height / 2,
   }
-  const radiusSq = (Math.min(width, height) / 2) ** 2
+  const radiusSq = (width / 2) ** 2
 
   const { inText } = buildText(width, height, 0.85, name)
   const inCircle = point => distanceSqFrom(point, center) <= radiusSq

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Custom Generation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    #image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 90%;
+      height: 90%;
+      max-width: 512px;
+      max-height: 512px;
+      transform: translate(-50%, -50%);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url('chris.svg')
+    }
+  </style>
+</head>
+<body>
+  <div id="image"></div>
+  <div class="container">
+    <form class="controls" id="controls">
+      <label for="text">Text</label>
+      <input type="text" name="text" value="Chris" />
+      <label for="start">Start Colour</label>
+      <input type="text" name="start" />
+      <label for="end">End Colour</label>
+      <input type="text" name="end" />
+      <label for="end">Width</label>
+      <input type="number" name="width" />
+      <label for="end">Height</label>
+      <input type="number" name="height" />
+      <label for="grid-size">Grid Size</label>
+      <input type="number" name="gridSize" value="10" />
+      <button type="submit">Generate</button>
+    </form>
+  </div>
+  <script>
+    function generate(event) {
+      event.preventDefault()
+      const image = document.getElementById('image')
+      const formElements = document.getElementById('controls').elements
+      const text = formElements.text.value
+      const query = []
+
+      for (let i = 0; i < formElements.length; i += 1) {
+        const element = formElements[i]
+        if (element.value && element.name !== 'text') {
+          query.push(`${element.name}=${element.value}`)
+        }
+      }
+
+      if (query.length > 0) {
+        query.splice(0, 0, '?')
+      }
+
+      image.style['background-image'] = `url(${text}.svg${query.join('&')})`
+
+      return false
+    }
+
+    document.getElementById('controls').onsubmit = generate
+  </script>
+</body>
+</html>
