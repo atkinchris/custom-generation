@@ -36,7 +36,7 @@ const buildLine = (list, discard, gridSize) => {
 }
 
 const gridWalk = (name, options) => {
-  const { height, width, gridSize } = options
+  const { height, width, gridSize, scale } = options
   const points = []
   const lines = []
   const center = {
@@ -45,7 +45,7 @@ const gridWalk = (name, options) => {
   }
   const radiusSq = (width / 2) ** 2
 
-  const { inText } = buildText(width, height, 0.85, name)
+  const { inText } = buildText(width, height, scale, name)
   const inCircle = point => distanceSqFrom(point, center) <= radiusSq
 
   const rowHeight = gridSize

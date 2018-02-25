@@ -12,6 +12,7 @@ const defaults = {
   width: 512,
   height: 512,
   gridSize: 10,
+  scale: 0.85,
   start: '#48C0D3',
   end: '#211572',
 }
