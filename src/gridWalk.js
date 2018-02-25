@@ -31,10 +31,10 @@ const buildLine = (list, discard) => {
   discard.push(b)
 
   return {
-    x1: a.x,
-    x2: b.x,
-    y1: a.y,
-    y2: b.y,
+    x1: Math.round(a.x),
+    x2: Math.round(b.x),
+    y1: Math.round(a.y),
+    y2: Math.round(b.y),
   }
 }
 
@@ -88,7 +88,7 @@ const gridWalk = (name) => {
     })
   }
 
-  const path = lines.map(({ x1, x2, y1, y2 }) => `M${x1} ${y1} L ${x2} ${y2}`)
+  const path = lines.map(({ x1, x2, y1, y2 }) => `M${x1} ${y1}L${x2} ${y2}`)
 
   const output = `
     <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
@@ -98,7 +98,7 @@ const gridWalk = (name) => {
           <stop offset="100%" stop-color="#211572" />
         </linearGradient>
         <mask id="lines">
-          <path d="${path.join(' ')}" fill="transparent" stroke="white" stroke-width="2" />
+          <path d="${path.join('')}" fill="transparent" stroke="white" stroke-width="2" />
         </mask>
       </defs>
       <rect x="0" y="0" width="${width}" height="${height}" mask="url(#lines)" fill="url(#grad)" />
