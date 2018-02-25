@@ -3,7 +3,7 @@ const express = require('express')
 const gridWalk = require('./gridWalk')
 
 const app = express()
-const port = 8080
+const port = process.env.PORT || 8080
 
 app.get('/:rawName.svg', (req, res) => {
   const { rawName } = req.params
@@ -14,4 +14,4 @@ app.get('/:rawName.svg', (req, res) => {
   res.send(svg)
 })
 
-app.listen(port, () => console.log('Server start'))
+app.listen(port, () => console.log(`Server start on port ${port}`))

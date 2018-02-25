@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node .",
     "docker:build": "docker build -t atkinchris/custom-generation .",
-    "docker:run": "docker run -p 8080:8080 atkinchris/custom-generation"
+    "docker:run": "docker run -p 8080:8080 atkinchris/custom-generation",
+    "heroku:tag": "docker tag atkinchris/custom-generation registry.heroku.com/custom-generation/web",
+    "heroku:push": "docker push registry.heroku.com/custom-generation/web"
   },
   "engines": {
     "node": ">7"
