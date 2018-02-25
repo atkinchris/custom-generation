@@ -31,7 +31,7 @@ const buildLine = (list, discard) => {
   discard.push(a)
   discard.push(b)
 
-  const colour = ((a.y / height) * 96) + 128
+  const colour = ((a.y / height) * 96) + 180
 
   return {
     x1: a.x,
@@ -54,7 +54,7 @@ const gridWalk = (name) => {
   const columnWidth = Math.sqrt((gridSize ** 2) - ((gridSize / 2) ** 2))
   let offset = false
 
-  for (let x = 0; x <= width; x += columnWidth) {
+  for (let x = 0; x < width + columnWidth; x += columnWidth) {
     const yOffset = offset ? gridSize / 2 : 0
     offset = !offset
 
@@ -88,17 +88,18 @@ const gridWalk = (name) => {
     })
   }
 
-  ctx.fillStyle = '#FFFFFF'
-  ctx.fillRect(0, 0, width, height)
-  ctx.beginPath()
-  lines.forEach((line) => {
-    ctx.strokeStyle = `hsl(${line.colour}, 255, 255)`
-    ctx.moveTo(line.x1, line.y1)
-    ctx.lineTo(line.x2, line.y2)
-    ctx.stroke()
+  const output = []
+
+  output.push(`<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`)
+
+  lines.forEach(({ x1, x2, y1, y2, colour }) => {
+    const stroke = `hsl(${colour}, 100%, 50%)`
+    output.push(`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke-width="1" stroke="${stroke}"/>`)
   })
 
-  return canvas
+  output.push('</svg>')
+
+  return output.join('\n')
 }
 
 module.exports = gridWalk

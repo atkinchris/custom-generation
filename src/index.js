@@ -5,14 +5,13 @@ const gridWalk = require('./gridWalk')
 const app = express()
 const port = 8080
 
-app.get('/:rawName.png', (req, res) => {
+app.get('/:rawName.svg', (req, res) => {
   const { rawName } = req.params
   const name = String(rawName).replace('_', ' ').toUpperCase()
+  const svg = gridWalk(name)
 
-  const canvas = gridWalk(name)
-
-  res.writeHead(200, { 'Content-Type': 'image/png' })
-  canvas.pngStream().pipe(res)
+  res.setHeader('Content-Type', 'image/svg+xml')
+  res.send(svg)
 })
 
 app.listen(port, () => console.log('Server start'))
